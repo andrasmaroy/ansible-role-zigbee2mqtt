@@ -57,6 +57,7 @@
     group: "{{ zigbee_user }}"
     mode: 0600
     force: "{{ zigbee_generate_new_network_key }}"
+  no_log: true
   notify: Restart zigbee2mqtt
 
 - name: Install configuration template.
