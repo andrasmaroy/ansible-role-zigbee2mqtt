@@ -9,6 +9,7 @@ StandardOutput=inherit
 StandardError=inherit
 Restart=always
 User={{ zigbee_user }}
+Environment=ZIGBEE2MQTT_DATA={{ zigbee_data_dir }}
 
 [Install]
 WantedBy=multi-user.target

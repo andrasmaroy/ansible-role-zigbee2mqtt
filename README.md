@@ -20,6 +20,7 @@ Role Variables
 - `zigbee_user_groups`: tty,dialout
 - `zigbee_user_append`: false
 - `zigbee_dir`: /opt/zigbee2mqtt
+- `zigbee_data_dir`: /var/lib/zigbee2mqtt
 - `zigbee_repository`: https://github.com/Koenkk/zigbee2mqtt.git
 - `zigbee_homeassistant`: false
 - `zigbee_permit_join`: true

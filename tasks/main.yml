@@ -16,9 +16,9 @@
     create_home: no
     shell: /usr/sbin/nologin
 
-- name: Create zigbee2mqtt directory.
+- name: Create zigbee2mqtt data directory.
   file:
-    path: "{{ zigbee_dir }}"
+    path: "{{ zigbee_data_dir }}"
     state: directory
     owner: "{{ zigbee_user }}"
 
@@ -49,7 +49,7 @@
 - name: Generate network key.
   template:
     src: network_key.yaml.j2
-    dest: "{{ zigbee_dir }}/data/network_key.yaml"
+    dest: "{{ zigbee_data_dir }}/network_key.yaml"
     owner: "{{ zigbee_user }}"
     group: "{{ zigbee_user }}"
     mode: 0600
@@ -59,7 +59,7 @@
 - name: Install configuration template.
   template:
     src: configuration.yaml.j2
-    dest: "{{ zigbee_dir }}/data/configuration.yaml"
+    dest: "{{ zigbee_data_dir }}/configuration.yaml"
     owner: "{{ zigbee_user }}"
   notify: Restart zigbee2mqtt
 
