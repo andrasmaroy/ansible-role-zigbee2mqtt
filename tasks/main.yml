@@ -38,6 +38,9 @@
 - name: Install zigbee2mqtt via npm.
   npm:
     path: "{{ zigbee_dir }}"
+    ci: yes
+    production: yes
+    no_optional: yes
   become: yes
   become_user: "{{ zigbee_user }}"
   notify: Restart zigbee2mqtt
