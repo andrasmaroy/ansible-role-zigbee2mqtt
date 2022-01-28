@@ -60,6 +60,22 @@
   no_log: true
   notify: Restart zigbee2mqtt
 
+- name: Save mqtt password in file
+  copy:
+    content: "{{ {'mqtt_password': zigbee2mqtt_mqtt['password'] } | to_nice_yaml }}"
+    dest: "{{ zigbee_data_dir }}/mqtt_password.yaml"
+    owner: "{{ zigbee_user }}"
+    group: "{{ zigbee_user }}"
+    mode: 0600
+  when: "'password' in zigbee2mqtt_mqtt.keys()"
+  notify: Restart zigbee2mqtt
+  no_log: true
+
+- name: Set mqtt password to read from file
+  set_fact:
+    zigbee2mqtt_mqtt: "{{ zigbee2mqtt_mqtt | combine({'password': '!mqtt_password mqtt_password'}) }}"
+  when: "'password' in zigbee2mqtt_mqtt.keys()"
+
 - name: Combine defaults
   set_fact:
     "{{ item | regex_replace('^zigbee_defaults_([a-z]+).*', 'zigbee2mqtt_\\1') }}": "{{ { item | regex_replace('^zigbee_defaults_[a-z]+_(.*)$', '\\1'): lookup('vars', item)} | combine( lookup('vars', item | regex_replace('^zigbee_defaults_([a-z]+)_.*', 'zigbee2mqtt_\\1')) | default({})) }}"
