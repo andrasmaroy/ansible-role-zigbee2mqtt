@@ -5,7 +5,7 @@
   package:
     name:
       - git
-      - npm
+      - nodejs
 
 - name: Create zigbee2mqtt user.
   user:
