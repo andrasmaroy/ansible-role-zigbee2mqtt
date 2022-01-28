@@ -27,12 +27,16 @@
     update: no
   become: yes
   become_user: "{{ zigbee_user }}"
+  notify: Restart zigbee2mqtt
+  register: repo
 
 - name: Install zigbee2mqtt via npm.
   npm:
     path: "{{ zigbee_dir }}"
   become: yes
   become_user: "{{ zigbee_user }}"
+  notify: Restart zigbee2mqtt
+  when: repo.changed
 
 - name: Generate network key.
   template:
@@ -42,22 +46,25 @@
     group: "{{ zigbee_user }}"
     mode: 0600
     force: "{{ zigbee_generate_new_network_key }}"
+  notify: Restart zigbee2mqtt
 
 - name: Install configuration template.
   template:
     src: configuration.yaml.j2
     dest: "{{ zigbee_dir }}/data/configuration.yaml"
     owner: "{{ zigbee_user }}"
+  notify: Restart zigbee2mqtt
 
 - name: Install systemd service template.
   template:
     src: zigbee2mqtt.service.j2
     dest: /etc/systemd/system/zigbee2mqtt.service
     owner: "{{ zigbee_user }}"
+  notify: Restart zigbee2mqtt
 
 - name: Start zigbee2mqtt service.
   systemd:
     name: zigbee2mqtt
     enabled: true
-    state: restarted
+    state: started
     daemon_reload: true
