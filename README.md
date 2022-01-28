@@ -32,6 +32,8 @@ Role Variables
   Zigbee2mqtt uses a known default encryption key. Therefore it is recommended to use a different one.  
   By default this role will create an random key at firstrun.
 - `zigbee_generate_new_network_key`: no
+- `zigbee_update`: no
+- `zigbee_version`: HEAD
 
 Dependencies
 ------------

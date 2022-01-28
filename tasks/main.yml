@@ -27,7 +27,9 @@
     repo: "{{ zigbee_repository }}"
     depth: 1
     dest: "{{ zigbee_dir }}"
-    update: no
+    update: "{{ zigbee_update }}"
+    force: yes
+    version: "{{ zigbee_version }}"
   become: yes
   become_user: "{{ zigbee_user }}"
   notify: Restart zigbee2mqtt
