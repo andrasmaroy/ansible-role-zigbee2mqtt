@@ -12,6 +12,9 @@
     name: "{{ zigbee_user }}"
     groups: "{{ zigbee_user_groups }}"
     append: "{{ zigbee_user_append }}"
+    system: yes
+    create_home: no
+    shell: /usr/sbin/nologin
 
 - name: Create zigbee2mqtt directory.
   file:
