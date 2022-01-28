@@ -30,8 +30,6 @@
     update: "{{ zigbee_update }}"
     force: yes
     version: "{{ zigbee_version }}"
-  become: yes
-  become_user: "{{ zigbee_user }}"
   notify: Restart zigbee2mqtt
   register: repo
 
@@ -41,10 +39,15 @@
     ci: yes
     production: yes
     no_optional: yes
-  become: yes
-  become_user: "{{ zigbee_user }}"
   notify: Restart zigbee2mqtt
   when: repo.changed
+
+- name: Set permissions for zigbee2mqtt
+  file:
+    path: "{{ zigbee_dir }}/dist"
+    state: directory
+    recurse: yes
+    owner: "{{ zigbee_user }}"
 
 - name: Generate network key.
   template:
