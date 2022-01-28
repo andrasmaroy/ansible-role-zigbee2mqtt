@@ -60,9 +60,19 @@
   no_log: true
   notify: Restart zigbee2mqtt
 
+- name: Combine defaults
+  set_fact:
+    "{{ item | regex_replace('^zigbee_defaults_([a-z]+).*', 'zigbee2mqtt_\\1') }}": "{{ { item | regex_replace('^zigbee_defaults_[a-z]+_(.*)$', '\\1'): lookup('vars', item)} | combine( lookup('vars', item | regex_replace('^zigbee_defaults_([a-z]+)_.*', 'zigbee2mqtt_\\1')) | default({})) }}"
+  loop: "{{ query('varnames', '^zigbee_defaults_.*') }}"
+
+- name: Combine whole config
+  set_fact:
+    zigbee2mqtt_config: "{{ { item: lookup('vars', item) } | combine(zigbee2mqtt_config | default({})) }}"
+  loop: "{{ query('varnames', '^zigbee2mqtt_.*') }}"
+
 - name: Install configuration template.
-  template:
-    src: configuration.yaml.j2
+  copy:
+    content: "{{ zigbee2mqtt_config | dict2items | selectattr('key', 'match', '^zigbee2mqtt_.*') | to_json | regex_replace('zigbee2mqtt_') | from_json | items2dict | to_nice_yaml(indent=2) }}"
     dest: "{{ zigbee_data_dir }}/configuration.yaml"
     owner: "{{ zigbee_user }}"
   notify: Restart zigbee2mqtt

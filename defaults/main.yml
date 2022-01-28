@@ -8,14 +8,17 @@ zigbee_user_append: false
 zigbee_dir: /usr/local/lib/zigbee2mqtt
 zigbee_data_dir: /var/lib/zigbee2mqtt
 
+zigbee_generate_new_network_key: no
 zigbee_repository: https://github.com/Koenkk/zigbee2mqtt.git
 zigbee_update: no
 zigbee_version: HEAD
 
-zigbee_homeassistant: false
-zigbee_permit_join: true
-zigbee_mqtt_base_topic: zigbee2mqtt
-zigbee_mqtt_server: mqtt://localhost
-zigbee_network_key: "'!network_key network_key'"
-zigbee_generate_new_network_key: no
-zigbee_serial_port: /dev/ttyACM0
+zigbee2mqtt_homeassistant: true
+zigbee2mqtt_permit_join: false
+
+zigbee_defaults_mqtt_base_topic: zigbee2mqtt
+zigbee_defaults_mqtt_user: zigbee
+zigbee_defaults_advanced_log_level: info
+zigbee_defaults_advanced_log_output:
+  - console
+zigbee_defaults_advanced_network_key: '!network_key network_key'
